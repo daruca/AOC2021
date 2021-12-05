@@ -77,16 +77,30 @@ function rating(index){
        // console.log(`Column: ${i} we have ${countzero} 0 and ${countone} 1 option to keepzero: ${keepZero}`);
         countone = 0;
         countzero = 0;
+        more = 2;
     }
     return more;
 }
+
+function remove(index, value){
+    let matrixTmp = matrix;
+    matrix = [];
+    for (let i=0; i<matrixTmp.length-1; i++){
+        if (matrixTmp[0] != value){
+            matrix.push(matrixTmp[i]);
+        }
+    }
+}
+
 function liveSupportRating(){
 let countzero = 0;
 let countone = 0;
 
 
     for(let i=0; i<matrix[0].length-1;i++){
-       console.log("Rating of "+i+' ='+rating(i));
+        let rat = rating(i);
+        remove(i,rat);
+       
     }
 
 
