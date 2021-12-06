@@ -57,8 +57,9 @@ function rating(index){
     let more = 2;
     let countzero = 0;
     let countone = 0;    
-    for(let i=0; i<=index;i++){
-        for(let j=0;j<rows; j++){
+    for(let i=0; i<index+1;i++){
+        for(let j=0;j<matrix.length-1; j++){
+           // console.log(matrix[j][i]);
             if (matrix[j][i] == '0'){
                 countzero ++;
             }
@@ -66,6 +67,8 @@ function rating(index){
                 countone ++;
             }
         }      
+        //console.log("0: "+countzero);
+        //console.log("1: "+countone);
         if (countzero > countone){
             more = 1;
             
@@ -77,7 +80,37 @@ function rating(index){
        // console.log(`Column: ${i} we have ${countzero} 0 and ${countone} 1 option to keepzero: ${keepZero}`);
         countone = 0;
         countzero = 0;
-        more = 2;
+    }
+    return more;
+}
+
+function ratingLess(index){
+    let more = 2;
+    let countzero = 0;
+    let countone = 0;    
+    for(let i=0; i<index+1;i++){
+        for(let j=0;j<matrix.length-1; j++){
+           // console.log(matrix[j][i]);
+            if (matrix[j][i] == '0'){
+                countzero ++;
+            }
+            else{
+                countone ++;
+            }
+        }      
+        //console.log("0: "+countzero);
+        //console.log("1: "+countone);
+        if (countzero > countone){
+            more = 0;
+            
+        }
+        else{
+            more = 1;
+            
+        }
+       // console.log(`Column: ${i} we have ${countzero} 0 and ${countone} 1 option to keepzero: ${keepZero}`);
+        countone = 0;
+        countzero = 0;
     }
     return more;
 }
@@ -92,21 +125,45 @@ function remove(index, value){
     }
 }
 
+function restore(){
+    rows = 0;
+    matrix = [];
+    for (let i = 0; i < input.length; i++){
+        matrix.push(input[i]);
+        rows++;
+    }
+}
+
 function liveSupportRating(){
 let countzero = 0;
 let countone = 0;
-
-
+let finalvalue = '';
+    console.log("matrix->length: "+matrix.length);
     for(let i=0; i<matrix[0].length-1;i++){
         let rat = rating(i);
+        //console.log("rating of: "+i+" = "+rat);
         remove(i,rat);
-       
+        finalvalue += rat;
     }
-
-
-
+console.log('final:'+parseInt(finalvalue,2));
 }
 
+function co2Rating(){
+let countzero = 0;
+let countone = 0;
+let finalvalue = '';
+    console.log("matrix->length: "+matrix.length);
+    for(let i=0; i<matrix[0].length-1;i++){
+        let rat = ratingLess(i);
+        //console.log("rating of: "+i+" = "+rat);
+        remove(i,rat);
+        finalvalue += rat;
+    }
+console.log('finalCo2:'+parseInt(finalvalue,2));
+}
 
 //console.log(Power());
-console.log(liveSupportRating());
+let livesupport = liveSupportRating();
+restore();
+let co2rat = co2Rating();
+console.log(livesupport*co2rat);
